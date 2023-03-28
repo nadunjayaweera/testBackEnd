@@ -1,4 +1,4 @@
-import app from "./server.js"
+import app from "./server.cjs"
 import mongodb from "mongodb"
 import SignupDAO from "./dao/signupDAO.js"
 

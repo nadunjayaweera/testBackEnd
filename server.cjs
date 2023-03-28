@@ -1,5 +1,5 @@
-import express from "express"
-import cors from "cors"
+const express = require("express");
+const cors = require("cors");
 import signup from "./api/signup.route.js"
 
 const app = express()
