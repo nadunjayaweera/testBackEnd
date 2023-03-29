@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-import signup from "./api/signup.route.js"
+import signup from "./api/signup.route.mjs"
 
 const app = express()
 
