@@ -39,22 +39,26 @@ export default class UserDAO {
           password: password,
         };
         
-        const existingUser = await db.collection("users").findOne({ email: user.email });
-        if (existingUser) {
-          throw new Error("Email already exists");
-        }
+        try {
+          const existingUser = await users.findOne({ email: user.email });
+          if (existingUser) {
+            throw new Error("Email already exists");
+          }
       
-        const result = await db.collection("users").insertOne(user);
-        return result.insertedId;
-      }
-        
+          const result = await users.insertOne(user);
+          return user;
+        } catch (e) {
+          console.error(`Unable to create user: ${e}`)
+          throw new Error(`Unable to create user: ${e.message}`)
+        }
+    }
 
     static async getUserByEmail(email) {
         try {
             return await users.findOne({ email: email })
         } catch (e) {
             console.error(`Unable to get user: ${e}`)
-            return { error: e }
+            return null
         }
     }
 }
