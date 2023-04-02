@@ -30,6 +30,25 @@ export default class UserDAO {
         }
     }
 
+    static async createUser(userInfo) {
+        const { fname, lname, email, password } = userInfo;
+        const user = {
+          fname: fname,
+          lname: lname,
+          email: email.toLowerCase(),
+          password: password,
+        };
+        
+        const existingUser = await db.collection("users").findOne({ email: user.email });
+        if (existingUser) {
+          throw new Error("Email already exists");
+        }
+      
+        const result = await db.collection("users").insertOne(user);
+        return result.insertedId;
+      }
+        
+
     static async getUserByEmail(email) {
         try {
             return await users.findOne({ email: email })
