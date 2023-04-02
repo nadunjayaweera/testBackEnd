@@ -9,6 +9,4 @@ const getUserByEmailAndPassword = async (email, password) => {
   return rows[0];
 };
 
-module.exports = {
-  getUserByEmailAndPassword,
-};
+export default getUserByEmailAndPassword;
