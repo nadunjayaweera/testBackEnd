@@ -1,12 +1,26 @@
-const pool = require('../database/db');
+import mongodb from "mongodb"
+const ObjectId = mongodb.ObjectID
 
-const getUserByEmailAndPassword = async (email, password) => {
-  const query = {
-    text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
-    values: [email, password],
-  };
-  const { rows } = await pool.query(query);
-  return rows[0];
-};
+let users
 
-export default getUserByEmailAndPassword;
+export default class LoginDAO {
+    static async injectDB(conn) {
+        if (users) {
+            return
+        }
+        try {
+            users = await conn.db("myapp").collection("users")
+        } catch (e) {
+            console.error(`Unable to establish collection handles in LoginDAO: ${e}`)
+        }
+    }
+
+    static async getUserByEmailAndPassword(email, password) {
+        try {
+            return await users.findOne({ email: email, password: password })
+        } catch (e) {
+            console.error(`Unable to get user: ${e}`)
+            return null
+        }
+    }
+}

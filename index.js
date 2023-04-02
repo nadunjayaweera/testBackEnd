@@ -21,7 +21,7 @@ MongoClient.connect(uri, {
     .then(async (client) => {
         await SignupDAO.injectDB(client);
         await LoginDAO.injectDB(client); // inject login DAO
-        // app.use("/login", loginRoutes); // mount login routes
+        app.use("/login", loginRoutes); // mount login routes
         app.listen(port, () => {
             console.log(`listening on port ${port}`);
         });
