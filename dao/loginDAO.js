@@ -3,7 +3,7 @@ const ObjectId = mongodb.ObjectID
 
 let users
 
-export default class LoginDAO {
+ class LoginDAO {
     static async injectDB(conn) {
         if (users) {
             return
@@ -24,3 +24,5 @@ export default class LoginDAO {
         }
     }
 }
+
+export default LoginDAO;

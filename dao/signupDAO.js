@@ -15,13 +15,13 @@ export default class UserDAO {
         }
     }
 
-    static async addUser(fname, lname, password, email) {
+    static async addUser(fname, lname, email, password) {
         try {
             const addDoc = {
                 fname: fname,
                 lname: lname,
-                password: password,
                 email: email,
+                password: password,
             }
             return await users.insertOne(addDoc)
         } catch (e) {
