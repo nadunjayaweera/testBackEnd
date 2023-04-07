@@ -3,6 +3,7 @@ import mongodb from "mongodb";
 import SignupDAO from "./dao/signupDAO.js";
 import LoginDAO from "./dao/loginDAO.js"; // add import for login DAO
 import loginRoutes from "./api/login.route.mjs"; // add import for login routes
+import userRoutes from "./api/users.route.mjs";
 
 const MongoClient = mongodb.MongoClient;
 
@@ -25,4 +26,5 @@ MongoClient.connect(uri, {
         app.listen(port, () => {
             console.log(`listening on port ${port}`);
         });
+        app.use("/users", userRoutes);
     });
