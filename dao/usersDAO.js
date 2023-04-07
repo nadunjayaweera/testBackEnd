@@ -1,27 +1,29 @@
-import mongodb from "mongodb";
-const ObjectId = mongodb.ObjectId;
+import mongodb from "mongodb"
+const ObjectId = mongodb.ObjectID
 
-let users;
+let users
 
-export default class UserDAO {
+class UsersDAO {
   static async injectDB(conn) {
     if (users) {
-      return;
+      return
     }
     try {
-      users = await conn.db("myapp").collection("users");
+      users = await conn.db("myapp").collection("users")
     } catch (e) {
-      console.error(`Unable to establish collection handles in UserDAO: ${e}`);
+      console.error(`Unable to establish collection handles in UsersDAO: ${e}`)
     }
   }
 
   static async getUsers() {
     try {
-      const cursor = await users.find();
-      return cursor.toArray();
+      const userList = await users.find().toArray();
+      return userList;
     } catch (e) {
-      console.error(`Unable to get users: ${e}`);
-      return { error: e };
+      console.error(`Unable to get users: ${e}`)
+      return null
     }
   }
 }
+
+export default UsersDAO;
