@@ -23,6 +23,7 @@ MongoClient.connect(uri, {
         await SignupDAO.injectDB(client);
         await LoginDAO.injectDB(client); // inject login DAO
         app.use("/login", loginRoutes); // mount login routes
+        app.use("/api/v1/users", userRoutes); // mount user routes
         app.listen(port, () => {
             console.log(`listening on port ${port}`);
         });
