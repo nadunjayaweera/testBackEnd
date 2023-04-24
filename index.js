@@ -4,6 +4,7 @@ import SignupDAO from "./dao/signupDAO.js";
 import LoginDAO from "./dao/loginDAO.js"; // add import for login DAO
 import loginRoutes from "./api/login.route.mjs"; // add import for login routes
 import userRoutes from "./api/users.route.mjs";
+import UsersDAO from "./dao/usersDAO.js";
 
 const MongoClient = mongodb.MongoClient;
 
@@ -22,8 +23,9 @@ MongoClient.connect(uri, {
     .then(async (client) => {
         await SignupDAO.injectDB(client);
         await LoginDAO.injectDB(client); // inject login DAO
+        await UsersDAO.injectDB(client); // inject user
         app.use("/login", loginRoutes); // mount login routes
-        app.use("/api/v1/users", userRoutes); // mount user routes
+        app.use("/users", userRoutes); // mount user routes
         app.listen(port, () => {
             console.log(`listening on port ${port}`);
         });
