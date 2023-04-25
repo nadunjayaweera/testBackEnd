@@ -15,7 +15,7 @@ export default class ItemDAO {
     }
   }
 
-  static async addItem(item) {
+  static async addItem(item, file) {
     try {
       const newItem = {
         _id: ObjectId(),
@@ -23,7 +23,10 @@ export default class ItemDAO {
         quantity: item.quantity,
         price: item.price,
         weight: item.weight,
-        image: item.image,
+        image: {
+          data: file.buffer,
+          contentType: file.mimeType
+        }
       };
 
       return await items.insertOne(newItem);
