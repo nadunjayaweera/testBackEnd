@@ -12,7 +12,9 @@ export default class AddItemController {
                 data: req.file.buffer, // get the file data from the request object
                 contentType: req.file.mimetype // get the file content type from the request object
             }
-        };
+      };
+      console.log("request:");
+      console.log(req.file);
         const result = await ItemDAO.addItem(item);
         res.json({ status: "success", id: result.insertedId });
     } catch (e) {

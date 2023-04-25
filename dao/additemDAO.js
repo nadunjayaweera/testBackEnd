@@ -23,10 +23,10 @@ export default class ItemDAO {
         quantity: item.quantity,
         price: item.price,
         weight: item.weight,
-        image: {
+        image: file? {
           data: file.buffer,
           contentType: file.mimeType
-        }
+        } : null
       };
 
       return await items.insertOne(newItem);
