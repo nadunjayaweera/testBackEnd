@@ -1,24 +1,53 @@
-import ItemDAO from "../dao/additemDAO.js";
+import Item from "./additem.model.js";
+import multer from "multer";
 
-export default class AddItemController {
-  static async apiAddItem(req, res, next) {
-    try {
-        const item = {
-            name: req.body.name,
-            quantity: req.body.quantity,
-            price: req.body.price,
-            weight: req.body.weight,
-            image: {
-                data: req.file.buffer, // get the file data from the request object
-                contentType: req.file.mimetype // get the file content type from the request object
-            }
-      };
-      console.log("request:");
-      console.log(req.file);
-        const result = await ItemDAO.addItem(item);
-        res.json({ status: "success", id: result.insertedId });
-    } catch (e) {
-        res.status(500).json({ error: e.message });
+// Set storage engine for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./uploads/");
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  },
+});
+
+// Initialize upload
+const upload = multer({ storage: storage }).single("image");
+
+// Define controller function to add item to database
+const apiAddItem = (req, res) => {
+  upload(req, res, function (err) {
+    if (err) {
+      // Handle error
+      console.log(err);
+      return res.status(500).send({ error: err.message });
     }
-}
-}
+
+    // Extract form data and file path
+    const { name, quantity, price, weight } = req.body;
+    const imagePath = req.file.path;
+
+    // Create new item
+    const item = new Item({
+      name,
+      quantity,
+      price,
+      weight,
+      imagePath,
+    });
+
+    // Save item to database
+    item.save(function (err, newItem) {
+      if (err) {
+        // Handle error
+        console.log(err);
+        return res.status(500).send({ error: err.message });
+      }
+
+      // Return success response
+      return res.json({ message: "Item added successfully", item: newItem });
+    });
+  });
+};
+
+export default { apiAddItem };

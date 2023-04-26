@@ -14,6 +14,7 @@ app.use("/api/v1/signup", signup)
 app.use("/api/v1/login", login); // add the login route
 app.use("/api/v1/users", getUsers); // add the users route
 app.use("/api/v1/additem", additem); // add the add
+
 app.use("*", (req, res) => res.status(404).json({error: "not found"}))
 
 export default app;
