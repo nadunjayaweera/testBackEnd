@@ -1,4 +1,4 @@
-import Item from "./additem.model.js";
+import ItemDAO from "../dao/additemDAO.js";
 import multer from "multer";
 
 // Set storage engine for multer
@@ -28,7 +28,7 @@ const apiAddItem = (req, res) => {
     const imagePath = req.file.path;
 
     // Create new item
-    const item = new Item({
+    const item = new ItemDAO({
       name,
       quantity,
       price,
