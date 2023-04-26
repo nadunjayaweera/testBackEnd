@@ -28,7 +28,8 @@ export default class ItemDAO {
           contentType: file.mimeType
         } : null
       };
-
+      console.log("Item list is:");
+      console.log(newItem);
       return await items.insertOne(newItem);
     } catch (e) {
       console.error(`Unable to add item: ${e}`);

@@ -16,37 +16,38 @@ const upload = multer({ storage: storage }).single("image");
 
 // Define controller function to add item to database
 const apiAddItem = (req, res) => {
-  upload(req, res, function (err) {
+  upload(req, res, async function (err) {
     if (err) {
       // Handle error
       console.log(err);
       return res.status(500).send({ error: err.message });
     }
 
-    // Extract form data and file path
+    try {
+    const image = req.files && req.files[0];
     const { name, quantity, price, weight } = req.body;
-    const imagePath = req.file.path;
+      // Create new item
+      const newItem = {
+        name,
+        quantity,
+        price,
+        weight,
+        image: image ? image.path: null,
+      };
 
-    // Create new item
-    const item = new ItemDAO({
-      name,
-      quantity,
-      price,
-      weight,
-      imagePath,
-    });
-
-    // Save item to database
-    item.save(function (err, newItem) {
-      if (err) {
-        // Handle error
-        console.log(err);
-        return res.status(500).send({ error: err.message });
-      }
+      // console.log("Item list is:");
+      // console.log(newItem);
+      
+      // Save item to database
+      const result = await ItemDAO.addItem(newItem);
 
       // Return success response
-      return res.json({ message: "Item added successfully", item: newItem });
-    });
+      return res.json({ message: "Item added successfully", item: result.ops[0] });
+    } catch (e) {
+      // Handle error
+      console.error(`Unable to add item: ${e}`);
+      return res.status(500).send({ error: e.message });
+    }
   });
 };
 
