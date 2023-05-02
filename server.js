@@ -4,7 +4,7 @@ import signup from "./api/signup.route.mjs";
 import login from "./api/login.route.mjs"; // import the login route
 import getUsers from "./api/users.route.mjs"
 import additem from "./api/additem.route.mjs";// import the additem route
-
+import dataRoute from "./api/data.route.mjs"// add import from data route.
 const app = express()
 
 app.use(cors())
@@ -14,7 +14,7 @@ app.use("/api/v1/signup", signup)
 app.use("/api/v1/login", login); // add the login route
 app.use("/api/v1/users", getUsers); // add the users route
 app.use("/api/v1/additem", additem); // add the add
-
+app.use("/api/v1/data", dataRoute); // add the data route.
 app.use("*", (req, res) => res.status(404).json({error: "not found"}))
 
 export default app;
