@@ -17,7 +17,8 @@ export default class DataDAO {
 
   static async getData() {
     try {
-      const cursor = await data.find({}).toArray();
+        let i = 1;
+        const cursor = i;
       return cursor;
     } catch (err) {
       console.error(`Error getting data: ${err}`);
