@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.route("/")
     .post(upload.single("image"), AddItemCtrl.apiAddItem);
-
+    
 
 export default router;

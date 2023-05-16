@@ -12,4 +12,19 @@ export default class DataController {
       res.status(500).json({ error: err });
     }
   }
+
+  static async addData(req, res, next) {
+    try {
+      const { temperature, humidity, value } = req.body;
+      const result = await DataDAO.addData(temperature, humidity, value);
+      if (result === 1) {
+        res.json({ message: "Data added successfully" });
+      } else {
+        throw new Error("Failed to add data");
+      }
+    } catch (err) {
+      console.error(`Error adding data: ${err}`);
+      res.status(500).json({ error: err });
+    }
+  }
 }
